@@ -40,7 +40,7 @@ class UserServiceTest {
         User newUser = userService.join(createUserDTO);
 
         // then
-        assertEquals(newUser, userRepository.findByNickname(newUser.getNickname()));
+        assertEquals(newUser, userRepository.findByNicknameAndEmail(newUser.getNickname(), newUser.getEmail()));
 
     }
 
@@ -48,21 +48,24 @@ class UserServiceTest {
     void 회원가입_중복() {
 
         // given
-        CreateUserDTO createUserDTO = new CreateUserDTO();
-        createUserDTO.setEmail("1217smj@naver.com");
-        createUserDTO.setNickname("sachena");
-        createUserDTO.setPassword("1234");
+        CreateUserDTO createUserDTO1 = new CreateUserDTO();
+        createUserDTO1.setEmail("1217smj@naver.com");
+        createUserDTO1.setNickname("sachena");
+        createUserDTO1.setPassword("1234");
+        User newUser1 = userService.join(createUserDTO1);
 
-        User testUser = new User();
-        testUser.createUser(createUserDTO);
 
 
         // when
-        User newUser1 = userService.join(createUserDTO);
+        CreateUserDTO createUserDTO2 = new CreateUserDTO();
+        createUserDTO2.setEmail("1217smj@naver.com");
+        createUserDTO2.setNickname("sachena");
+        createUserDTO2.setPassword("1234");
+
 
         // then
         assertThrows(DuplicateException.class, ()->{
-            userService.join(createUserDTO);
+            userService.join(createUserDTO2);
         }
         );
 

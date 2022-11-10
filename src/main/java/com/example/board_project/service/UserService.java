@@ -20,7 +20,7 @@ public class UserService {
 
 
         //Check Value
-        User checkUser = userRepository.findByNickname(createUserDTO.getNickname());
+        User checkUser = userRepository.findByNicknameAndEmail(createUserDTO.getNickname(), createUserDTO.getEmail());
         if(checkUser != null){
             throw new DuplicateException("중복된 닉네임입니다");
         }
