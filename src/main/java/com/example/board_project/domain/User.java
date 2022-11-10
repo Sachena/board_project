@@ -1,6 +1,7 @@
 package com.example.board_project.domain;
 
 
+import com.example.board_project.dto.CreateUserDTO;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -28,5 +29,17 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Post> posts = new ArrayList<>();
+
+
+    //setter업애기 위해?
+    public void createUser(CreateUserDTO createUserDTO){
+        this.email = createUserDTO.getEmail();
+        this.password = createUserDTO.getPassword();
+        this.nickname = createUserDTO.getNickname();
+
+        this.joinedAt = LocalDateTime.now();
+
+
+    }
 
 }
