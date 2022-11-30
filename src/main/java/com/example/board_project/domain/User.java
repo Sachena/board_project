@@ -2,6 +2,7 @@ package com.example.board_project.domain;
 
 
 import com.example.board_project.dto.CreateUserDTO;
+import com.example.board_project.dto.EditUserDTO;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -36,10 +37,12 @@ public class User {
         this.email = createUserDTO.getEmail();
         this.password = createUserDTO.getPassword();
         this.nickname = createUserDTO.getNickname();
-
         this.joinedAt = LocalDateTime.now();
 
 
     }
 
+    public void editUser(EditUserDTO editUserDTO) {
+        this.nickname = editUserDTO.getNickname();
+    }
 }
