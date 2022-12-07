@@ -4,6 +4,7 @@ import com.example.board_project.domain.User;
 import com.example.board_project.dto.CreateUserDTO;
 import com.example.board_project.dto.DeleteUserDto;
 import com.example.board_project.dto.EditUserDTO;
+import com.example.board_project.dto.RetrieveUserDto;
 import com.example.board_project.exception.DuplicateException;
 import com.example.board_project.exception.InvalidUserException;
 import com.example.board_project.repository.UserRepository;
@@ -47,8 +48,8 @@ public class UserService {
     public User editUser(EditUserDTO editUserDTO) {
 
         //Check Value
-        User checkUser = userRepository.findByEmail(editUserDTO.getEmail());
-        if(checkUser == null){
+        User editUser = userRepository.findByEmail(editUserDTO.getEmail());
+        if(editUser == null){
             throw new InvalidUserException("올바른 사용자가 아닙니다.");
         }
 
@@ -58,9 +59,9 @@ public class UserService {
 
 
         //user 정보 수정 (변경감지 사용)
-        checkUser.editUser(editUserDTO);
+        editUser.editUser(editUserDTO);
 
-        return checkUser;
+        return editUser;
 
     }
 
@@ -68,15 +69,25 @@ public class UserService {
     public User deleteUser(DeleteUserDto deleteUserDto) {
 
         //Check Value
-        User checkUser = userRepository.findByEmail(deleteUserDto.getEmail());
-        if(checkUser == null){
+        User deleteUser = userRepository.findByEmail(deleteUserDto.getEmail());
+        if(deleteUser == null){
             throw new InvalidUserException("올바른 사용자가 아닙니다.");
         }
 
         //user 삭제 (변경감지 사용)
-        checkUser.deleteUser(deleteUserDto);
+        deleteUser.deleteUser(deleteUserDto);
 
-        return checkUser;
+        return deleteUser;
 
+    }
+
+    public User retrieveUser(RetrieveUserDto retrieveUserDto) {
+
+        //Check Value
+        User retrieveUser = userRepository.findByEmail(retrieveUserDto.getEmail());
+        if(retrieveUser == null){
+            throw new InvalidUserException("올바른 사용자가 아닙니다.");
+        }
+        return retrieveUser;
     }
 }
