@@ -33,16 +33,12 @@ public class UserService {
         }
 
 
-        //CQRS 분리
-        //Command
+        //User 저장
         User newUser = new User();
         newUser.createUser(createUserDTO);
         userRepository.save(newUser);
 
-        //Query => newUser 로 바로 리턴 vs 한번더 호출...?
-        User callUser = userRepository.findById(newUser.getId()).orElse(null);
-
-        return callUser;
+        return newUser;
 
     }
 
