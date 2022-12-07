@@ -2,6 +2,7 @@ package com.example.board_project.service;
 
 import com.example.board_project.domain.User;
 import com.example.board_project.dto.CreateUserDTO;
+import com.example.board_project.dto.DeleteUserDto;
 import com.example.board_project.dto.EditUserDTO;
 import com.example.board_project.exception.DuplicateException;
 import com.example.board_project.exception.InvalidUserException;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.security.DigestException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,6 +26,9 @@ class UserServiceTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EntityManager em;
 
     @Test
     void 회원가입() {
@@ -158,6 +163,50 @@ class UserServiceTest {
         // then
         assertThrows(DuplicateException.class, ()->{
                     userService.editUser(editUserDTO);
+                }
+        );
+
+    }
+
+    @Test
+    void 회원탈퇴() {
+
+        // given
+        CreateUserDTO createUserDTO = new CreateUserDTO();
+        createUserDTO.setEmail("deleteTest@naver.com");
+        createUserDTO.setNickname("deleteTest");
+        createUserDTO.setPassword("1234");
+
+        User testUser =  userService.join(createUserDTO);
+
+
+        // when
+        DeleteUserDto deleteUserDto = new DeleteUserDto();
+        deleteUserDto.setEmail(testUser.getEmail());
+        userService.deleteUser(deleteUserDto);
+
+
+        // then
+        assertEquals(testUser.getIsDeleted(), true);
+
+    }
+
+    @Test
+    void 회원탈퇴_유효하지않은이메일() {
+
+        // given
+        DeleteUserDto deleteUserDto = new DeleteUserDto();
+        deleteUserDto.setEmail("asdasd");
+
+
+
+        // when
+
+
+
+        // then
+        assertThrows(InvalidUserException.class, ()->{
+                    userService.deleteUser(deleteUserDto);
                 }
         );
 
