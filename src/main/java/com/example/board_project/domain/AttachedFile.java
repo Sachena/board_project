@@ -20,5 +20,13 @@ public class AttachedFile {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    private void addPost(Post post){
+        this.post = post;
+    }
 
+
+    public void createAttachedFile(String fileUrl, Post newPost) {
+        this.url = fileUrl;
+        this.post = newPost;
+    }
 }

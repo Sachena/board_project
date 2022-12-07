@@ -34,8 +34,13 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<AttachedFile> attachedFiles = new ArrayList<>();
 
+    public void addAttachedFile(AttachedFile attachedFile){
+        this.attachedFiles.add(attachedFile);
+    }
 
 
-
-
+    public void createPost(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
 }
