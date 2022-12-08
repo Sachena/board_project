@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +37,14 @@ public class Post {
 
     public void addAttachedFile(AttachedFile attachedFile){
         this.attachedFiles.add(attachedFile);
+        attachedFile.addPost(this);
     }
 
 
-    public void createPost(String title, String description) {
+    public void createPost(String title, String description, User user) {
         this.title = title;
         this.description = description;
+        this.createdAt = LocalDateTime.now();
+        this.user = user;
     }
 }
